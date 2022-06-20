@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>贪吃蛇</title>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		body{
+			background: #000;
+		}
+		.box{
+			overflow: hidden;
+			position: absolute;
+		}
+
+		span{
+			float: left;
+			width: 50px;
+			height: 50px;
+			background: #fff;
+			border: 1px solid red;
+		}
+		.on{
+			width: 50px;
+			height: 50px;
+			background: #fff;
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<span style="background: red;"></span>
+	</div>
+	<div class="on"></div>
+</body>
+<script type="text/javascript">
+	function $(css,el){
+		el=el||document;
+		return el.querySelector(css);
+	};
+	var box=$('.box'),div=$('.on'),a=0,b=0,t1,t2,t3,t4,i=2;
+	function tab1(){
+		clean();
+		t1=setInterval(function(){
+			a++;
+			var s=a+'px';
+			box.style.left=s;
+			if(box.offsetLeft>window.innerWidth-box.offsetWidth){
+				a=0;
+				box.style.left=s;
+			};
+			pd();
+		},10);
+	};
+	function tab2(){
+		clean();
+		t2=setInterval(function(){
+			a--;
+			var s=a+'px';
+			box.style.left=s;
+			if(box.offsetLeft<0){
+				a=window.innerWidth-box.offsetWidth;
+				box.style.left=s;
+			};
+			pd();
+		},10);
+	};
+	function tab3(){
+		clean();
+		t3=setInterval(function(){
+			b++;
+			var s=b+'px';
+			box.style.top=s;
+			if(box.offsetTop>window.innerHeight-50){
+				b=0;
+				box.style.top=s;
+			};
+			pd();
+		},10);
+	};
+	function tab4(){
+		clean();
+		t4=setInterval(function(){
+			b--;
+			var s=b+'px';
+			box.style.top=s;
+			if(box.offsetTop<0){
+				b=window.innerHeight-box.offsetHeight;
+				box.style.top=s;
+			};
+			pd();
+		},10);
+	};
+	function clean(){
+		clearInterval(t1);
+		clearInterval(t2);
+		clearInterval(t3);
+		clearInterval(t4);
+	};
+	window.onkeydown=function(e){
+		if(e.keyCode==37){
+			tab2();
+		};
+		if(e.keyCode==39){
+			tab1();
+		};
+		if(e.keyCode==38){
+			tab4();
+		};
+		if(e.keyCode==40){
+			tab3();
+		};
+	};
+	function sj(){
+		function random(min,max){
+			return Math.floor(Math.random()*(max-min+1)+min);
+		};
+		var a=random(0,window.innerWidth-50);
+		var b=random(0,window.innerHeight-50);
+		div.setAttribute('style','left:'+a+'px;top:'+b+'px;');
+	};
+	function pd(){
+		if((box.offsetLeft<=div.offsetLeft+5&&box.offsetLeft>=div.offsetLeft-5)&&(box.offsetTop<=div.offsetTop+5&&box.offsetTop>=div.offsetTop-5)){
+
+			var span=document.createElement('span');
+			span.innerText=i++;
+			box.appendChild(span);
+			sj();
+		};
+	};
+	function init(){
+		tab1();
+		sj();
+	};init();
+</script>
+</html>
